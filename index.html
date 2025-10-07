@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Website Aman 🔐</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Orbitron', sans-serif;
+    }
+    body {
+      background: radial-gradient(circle at center, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 1rem;
+      opacity: 0.8;
+      margin-bottom: 20px;
+    }
+    .status {
+      padding: 10px 20px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 10px;
+      backdrop-filter: blur(5px);
+      font-size: 0.9rem;
+    }
+    .blocked {
+      background: rgba(255, 0, 0, 0.2);
+      border-color: rgba(255, 0, 0, 0.5);
+      color: #ff4d4d;
+    }
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.8rem;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌐 Website Aman</h1>
+  <p>Sistem ini akan mendeteksi aktivitas mencurigakan secara otomatis.</p>
+
+  <div class="status" id="statusBox">Sedang memeriksa aktivitas Anda...</div>
+
+  <footer>© 2025 Sistem Keamanan Web</footer>
+
+  <script>
+    // Cek aktivitas & status blokir dari API
+    fetch('/api/track')
+      .then(res => res.json())
+      .then(data => {
+        const box = document.getElementById('statusBox');
+        if (data.blocked) {
+          box.innerText = '🚫 Akses Anda telah diblokir karena aktivitas mencurigakan.';
+          box.classList.add('blocked');
+          document.body.innerHTML = `
+            <div style="text-align:center;padding:40px;">
+              <h1>🚫 Akses Diblokir</h1>
+              <p>IP Anda terdeteksi melakukan aktivitas mencurigakan dan telah diblokir otomatis.</p>
+              <p>Silakan hubungi admin jika ini kesalahan.</p>
+            </div>
+          `;
+        } else {
+          box.innerText = `✅ Aktivitas normal | Jumlah hit: ${data.hits}`;
+        }
+      })
+      .catch(err => {
+        document.getElementById('statusBox').innerText = '⚠️ Gagal memeriksa status.';
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
