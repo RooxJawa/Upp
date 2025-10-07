@@ -1,56 +1,38 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Deteksi IP Pengunjung</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deteksi IP & Kirim ke Telegram</title>
   <style>
     body {
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #fff;
+      font-family: sans-serif;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       height: 100vh;
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 10px;
+      background: #111;
+      color: #fff;
+      flex-direction: column;
     }
     #ipBox {
-      background: rgba(255,255,255,0.1);
-      padding: 10px 20px;
-      border-radius: 10px;
-      margin-top: 10px;
       font-size: 1.2rem;
-    }
-    footer {
-      position: absolute;
-      bottom: 10px;
-      font-size: 0.8rem;
-      opacity: 0.6;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <h1>🌐 Sistem Deteksi IP</h1>
-  <p>IP kamu akan muncul otomatis di bawah:</p>
+  <h1>Deteksi IP Otomatis</h1>
   <div id="ipBox">Mendeteksi IP...</div>
-
-  <footer>© 2025 Sistem Deteksi IP</footer>
 
   <script>
     fetch('/api/myip')
-      .then(res => res.json())
+      .then(r => r.json())
       .then(data => {
         document.getElementById('ipBox').innerText = `IP kamu: ${data.detected_ip}`;
       })
-      .catch(err => {
+      .catch(() => {
         document.getElementById('ipBox').innerText = 'Gagal mendeteksi IP';
-        console.error(err);
       });
   </script>
 </body>
